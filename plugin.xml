@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="cordova-outsystems-r8-patch" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0">
+  <name>R8 Patch</name>
+  <platform name="android">
+    <framework src="src/android/r8-patch.gradle" custom="true" type="gradleReference" />
+  </platform>
+</plugin>

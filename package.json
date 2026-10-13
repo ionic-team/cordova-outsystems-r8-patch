@@ -1,0 +1,9 @@
+{
+  "name": "cordova-outsystems-r8-patch",
+  "version": "1.0.0",
+  "description": "Adds R8 keep rules for other plugins",
+  "cordova": {
+    "id": "cordova-outsystems-r8-patch",
+    "platforms": ["android"]
+  }
+}

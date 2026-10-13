@@ -1,0 +1,41 @@
+// Written from here because Cordova apps don't copy a separate rules file.
+def rules = new File(project.layout.buildDirectory.get().asFile, 'r8-patch/rules.pro')
+rules.parentFile.mkdirs()
+rules.text = '''
+# Cordova plugins, for shells that don't keep them
+-keep public class * extends org.apache.cordova.* {
+  public <methods>;
+  public <fields>;
+}
+
+# Capacitor core
+-keep @interface com.getcapacitor.annotation.CapacitorPlugin
+-keep @interface com.getcapacitor.annotation.Permission
+-keep @interface com.getcapacitor.annotation.ActivityCallback
+-keep @interface com.getcapacitor.annotation.PermissionCallback
+-keep @interface com.getcapacitor.PluginMethod
+-keep @interface com.getcapacitor.NativePlugin
+-keepclassmembers class * extends com.getcapacitor.Plugin {
+    @com.getcapacitor.annotation.ActivityCallback <methods>;
+    @com.getcapacitor.annotation.PermissionCallback <methods>;
+}
+
+# Room below 2.7 and firebase-components below 18.0.1 under AGP 9
+-keep class * extends androidx.room.RoomDatabase { void <init>(); }
+-keep class * implements com.google.firebase.components.ComponentRegistrar { void <init>(); }
+
+# SQLite
+-keep class io.liteglue.SQLiteNativeResponse { <init>(int, long); }
+
+# AppShield
+-keepnames class com.getcapacitor.Plugin
+-keepnames class org.apache.cordova.CordovaPlugin
+
+# Cordova Geolocation
+-keepclassmembers class io.ionic.libs.iongeolocationlib.model.IONGLOCLocationResult { <fields>; }
+
+# Payments
+-dontwarn com.stripe.android.financialconnections.**
+-dontwarn com.stripe.android.stripecardscan.**
+'''
+android.buildTypes.release.proguardFile(rules)
